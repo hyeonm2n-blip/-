@@ -1,110 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bouncing Balls</title>
-<style>
-    body { 
-        margin: 0; 
-        overflow: hidden; 
-        background-color: #111; 
-    }
-    canvas { 
-        display: block; 
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계 지리 - 쾨펜의 기후 구분 학습지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .suneung-box {
+            border: 1.5px solid #374151;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            background-color: #ffffff;
+        }
+        .question-number {
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-right: 0.5rem;
+        }
+    </style>
 </head>
-<body>
-<canvas id="canvas"></canvas>
-<script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
+<body class="text-gray-800 antialiased p-4 md:p-8">
 
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    <div class="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-lg">
+        
+        <!-- Header -->
+        <div class="border-b-4 border-gray-800 pb-4 mb-8 text-center">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">세계 지리 학습지</h1>
+            <p class="text-lg mt-2 text-gray-600">- 쾨펜의 기후 구분 -</p>
+        </div>
 
-    class Ball {
-        constructor(x, y, r, color) {
-            this.x = x;
-            this.y = y;
-            this.r = r;
-            this.color = color;
-            this.vx = (Math.random() - 0.5) * 15;
-            this.vy = (Math.random() - 0.5) * 15;
-            this.gravity = 0.4;
-            this.friction = 0.99;
-            this.bounce = 0.8;
+        <form id="worksheetForm">
+            <!-- Student Information -->
+            <div class="bg-gray-100 p-4 rounded-lg mb-8 flex flex-wrap gap-4 items-center justify-between border border-gray-300">
+                <div class="flex-1 min-w-[80px]">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">학년</label>
+                    <input type="number" id="grade" required min="1" max="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex-1 min-w-[80px]">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">반</label>
+                    <input type="number" id="classNum" required min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex-1 min-w-[80px]">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">번호</label>
+                    <input type="number" id="studentNum" required min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex-1 min-w-[120px]">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                    <input type="text" id="studentName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Questions -->
+            <div class="space-y-10">
+                
+                <!-- Q1 -->
+                <div class="question-container">
+                    <div class="flex items-start mb-3">
+                        <span class="question-number text-blue-700">1.</span>
+                        <p class="text-lg leading-relaxed">다음 글이 설명하는 기후구를 쾨펜의 기후 구분에서 고르시오.</p>
+                    </div>
+                    <div class="suneung-box text-gray-700 bg-gray-50 leading-relaxed mb-4">
+                        최하월 평균 기온이 18℃ 이상이며, 연중 강수량이 풍부하여 상록 활엽수를 중심으로 한 밀림을 이룬다. 오후에는 강한 일사로 인해 스콜(Squall)이라는 대류성 강수가 자주 발생한다.
+                    </div>
+                    <div class="space-y-2 pl-6">
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q1" value="1" required class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>① Af (열대 우림 기후)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q1" value="2" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>② Aw (열대 사바나 기후)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q1" value="3" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>③ Cs (지중해성 기후)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q1" value="4" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>④ Df (냉대 습윤 기후)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q1" value="5" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>⑤ ET (툰드라 기후)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="question-container">
+                    <div class="flex items-start mb-3">
+                        <span class="question-number text-blue-700">2.</span>
+                        <p class="text-lg leading-relaxed">(가) 기후 지역에서 주로 볼 수 있는 농업 경관으로 가장 적절한 것은?</p>
+                    </div>
+                    <div class="suneung-box text-gray-700 bg-gray-50 leading-relaxed mb-4">
+                        (가) 기후는 여름철에는 아열대 고압대의 영향으로 고온 건조하고, 겨울철에는 전선을 동반한 편서풍의 영향으로 온난 습윤한 특징이 나타난다. 주로 대륙의 서안 30°~40° 부근에 분포한다.
+                    </div>
+                    <div class="space-y-2 pl-6">
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q2" value="1" required class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>① 대규모 화전 농업이 이루어진다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q2" value="2" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>② 여름철 풍부한 강수를 바탕으로 벼농사를 짓는다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q2" value="3" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>③ 올리브, 포도 등 뿌리가 깊은 나무를 기르는 수목 농업이 발달하였다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q2" value="4" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>⑤ 천연고무, 카카오 등을 재배하는 플랜테이션 농업이 주를 이룬다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q2" value="5" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>⑤ 주로 풀을 찾아 가축과 함께 이동하는 유목 생활을 한다.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="question-container">
+                    <div class="flex items-start mb-3">
+                        <span class="question-number text-blue-700">3.</span>
+                        <p class="text-lg leading-relaxed">다음은 어느 기후 지역에 대한 설명이다. 이에 해당하는 기후의 특징으로 옳은 것은?</p>
+                    </div>
+                    <div class="suneung-box text-gray-700 bg-gray-50 leading-relaxed mb-4">
+                        북극해 연안을 따라 주로 분포하며, 최난월 평균 기온이 0℃ 이상 10℃ 미만이다. 겨울은 매우 길고 추우며, 토양은 대부분 영구 동토층으로 이루어져 있다.
+                    </div>
+                    <div class="space-y-2 pl-6">
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q3" value="1" required class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>① 일년 내내 눈과 얼음으로 덮여 식생이 자랄 수 없다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q3" value="2" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>② 짧은 여름 동안 표토층이 녹아 선태류(이끼류)가 자란다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q3" value="3" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>③ 타이가(Taiga)라고 불리는 침엽수림이 넓게 분포한다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q3" value="4" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>④ 강수량이 증발량보다 적어 건조한 모래 사막이 나타난다.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
+                            <input type="radio" name="q3" value="5" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span>⑤ 계절풍의 영향으로 여름에 강수량이 집중된다.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Q4 (Short Answer) -->
+                <div class="question-container">
+                    <div class="flex items-start mb-3">
+                        <span class="question-number text-blue-700">4.</span>
+                        <div class="w-full">
+                            <p class="text-lg leading-relaxed mb-3">[주관식] 온대 기후 중 연중 강수가 고르게 분포하며, 최난월 평균 기온이 22℃ 이상인 기후의 쾨펜 기후 기호를 영문 대소문자를 구분하여 작성하시오. (예: Cfb)</p>
+                            <input type="text" id="q4" required placeholder="정답 입력" class="w-full md:w-1/2 px-4 py-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5 (Short Answer) -->
+                <div class="question-container">
+                    <div class="flex items-start mb-3">
+                        <span class="question-number text-blue-700">5.</span>
+                        <div class="w-full">
+                            <p class="text-lg leading-relaxed mb-3">[주관식] 건조 기후(B)는 연 강수량 250mm를 기준으로 두 가지로 구분된다. 그 중 강수량이 조금 더 많아 짧은 풀이 자라는 '스텝 기후'를 나타내는 기호를 영문 대문자 2개로 작성하시오.</p>
+                            <input type="text" id="q5" required placeholder="정답 입력" class="w-full md:w-1/2 px-4 py-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Submit Section -->
+            <div class="mt-12 pt-6 border-t border-gray-200 text-center">
+                <button type="submit" id="submitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transform transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-center mx-auto">
+                    <span id="btnText">답안 제출하기</span>
+                    <svg id="loadingSpinner" class="hidden animate-spin ml-3 h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+                <p class="text-gray-500 text-sm mt-3">제출 후에는 수정할 수 없습니다.</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">제출 완료!</h3>
+            <p class="text-gray-600 mb-6">수고하셨습니다. 답안이 성공적으로 제출되었습니다.</p>
+            <button onclick="document.getElementById('successModal').classList.add('hidden')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                확인
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">제출 오류</h3>
+            <p class="text-gray-600 mb-6" id="errorMessage">서버와 통신 중 문제가 발생했습니다.</p>
+            <button onclick="document.getElementById('errorModal').classList.add('hidden')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                닫기
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase 11.6.1 모듈 사용 (호환성 및 최신 안정화 버전)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 제공해주신 Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpM0di7-ML4lSI7f9dfMaqF3oCtjgcdF8",
+            authDomain: "hyeonm2n-7a7e9.firebaseapp.com",
+            projectId: "hyeonm2n-7a7e9",
+            storageBucket: "hyeonm2n-7a7e9.firebasestorage.app",
+            messagingSenderId: "777173985817",
+            appId: "1:777173985817:web:c59484708eb4a47a2d5888",
+            measurementId: "G-XN00NN4T6H"
+        };
+
+        // Firebase 초기화
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+        } catch (error) {
+            console.error("Firebase 초기화 에러:", error);
         }
-        update() {
-            this.vy += this.gravity;
-            this.x += this.vx;
-            this.y += this.vy;
 
-            // Boundary collision
-            if (this.x + this.r > width) { 
-                this.x = width - this.r; 
-                this.vx *= -this.bounce; 
-            } else if (this.x - this.r < 0) { 
-                this.x = this.r; 
-                this.vx *= -this.bounce; 
+        const form = document.getElementById('worksheetForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 로딩 UI 처리
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            btnText.textContent = "제출 중...";
+            loadingSpinner.classList.remove('hidden');
+
+            try {
+                // 입력 데이터 수집
+                const data = {
+                    grade: parseInt(document.getElementById('grade').value),
+                    classNum: parseInt(document.getElementById('classNum').value),
+                    studentNum: parseInt(document.getElementById('studentNum').value),
+                    studentName: document.getElementById('studentName').value,
+                    answers: {
+                        q1: document.querySelector('input[name="q1"]:checked').value,
+                        q2: document.querySelector('input[name="q2"]:checked').value,
+                        q3: document.querySelector('input[name="q3"]:checked').value,
+                        q4: document.getElementById('q4').value.trim(),
+                        q5: document.getElementById('q5').value.trim()
+                    },
+                    submittedAt: serverTimestamp()
+                };
+
+                // Firestore 'koppen_submissions' 컬렉션에 데이터 저장
+                // (파이어베이스 콘솔 -> Firestore Database에서 해당 컬렉션을 확인 가능합니다)
+                await addDoc(collection(db, "koppen_submissions"), data);
+                
+                // 성공 모달 띄우기
+                document.getElementById('successModal').classList.remove('hidden');
+                form.reset();
+
+            } catch (error) {
+                console.error("데이터 저장 실패: ", error);
+                document.getElementById('errorMessage').textContent = "오류 내용: " + error.message;
+                document.getElementById('errorModal').classList.remove('hidden');
+            } finally {
+                // UI 복구
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btnText.textContent = "답안 제출하기";
+                loadingSpinner.classList.add('hidden');
             }
-            
-            if (this.y + this.r > height) { 
-                this.y = height - this.r; 
-                this.vy *= -this.bounce; 
-                this.vx *= this.friction; 
-            } else if (this.y - this.r < 0) { 
-                this.y = this.r; 
-                this.vy *= -this.bounce; 
-            }
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.shadowColor = this.color;
-            ctx.shadowBlur = 15;
-            ctx.fill();
-            ctx.closePath();
-            ctx.shadowBlur = 0; // Reset for the trail effect compatibility
-        }
-    }
-
-    const balls = [];
-    const colors = ['#ff0055', '#00ffaa', '#00aaff', '#ffaa00', '#ff00ff'];
-
-    function spawnBall(x, y) {
-        const r = Math.random() * 20 + 15;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        balls.push(new Ball(x, y, r, color));
-    }
-
-    // Spawn an initial ball in the center
-    spawnBall(width/2, height/4);
-
-    // Spawn new balls on click
-    window.addEventListener('click', (e) => {
-        spawnBall(e.clientX, e.clientY);
-    });
-
-    function animate() {
-        // Semi-transparent fill for motion trail effect
-        ctx.fillStyle = 'rgba(17, 17, 17, 0.2)';
-        ctx.fillRect(0, 0, width, height);
-
-        balls.forEach(ball => {
-            ball.update();
-            ball.draw();
         });
-        requestAnimationFrame(animate);
-    }
-    animate();
-</script>
+    </script>
 </body>
 </html>
