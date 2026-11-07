@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bouncing Balls</title>
+<style>
+    body { 
+        margin: 0; 
+        overflow: hidden; 
+        background-color: #111; 
+    }
+    canvas { 
+        display: block; 
+    }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Ball {
+        constructor(x, y, r, color) {
+            this.x = x;
+            this.y = y;
+            this.r = r;
+            this.color = color;
+            this.vx = (Math.random() - 0.5) * 15;
+            this.vy = (Math.random() - 0.5) * 15;
+            this.gravity = 0.4;
+            this.friction = 0.99;
+            this.bounce = 0.8;
+        }
+        update() {
+            this.vy += this.gravity;
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Boundary collision
+            if (this.x + this.r > width) { 
+                this.x = width - this.r; 
+                this.vx *= -this.bounce; 
+            } else if (this.x - this.r < 0) { 
+                this.x = this.r; 
+                this.vx *= -this.bounce; 
+            }
+            
+            if (this.y + this.r > height) { 
+                this.y = height - this.r; 
+                this.vy *= -this.bounce; 
+                this.vx *= this.friction; 
+            } else if (this.y - this.r < 0) { 
+                this.y = this.r; 
+                this.vy *= -this.bounce; 
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.shadowColor = this.color;
+            ctx.shadowBlur = 15;
+            ctx.fill();
+            ctx.closePath();
+            ctx.shadowBlur = 0; // Reset for the trail effect compatibility
+        }
+    }
+
+    const balls = [];
+    const colors = ['#ff0055', '#00ffaa', '#00aaff', '#ffaa00', '#ff00ff'];
+
+    function spawnBall(x, y) {
+        const r = Math.random() * 20 + 15;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        balls.push(new Ball(x, y, r, color));
+    }
+
+    // Spawn an initial ball in the center
+    spawnBall(width/2, height/4);
+
+    // Spawn new balls on click
+    window.addEventListener('click', (e) => {
+        spawnBall(e.clientX, e.clientY);
+    });
+
+    function animate() {
+        // Semi-transparent fill for motion trail effect
+        ctx.fillStyle = 'rgba(17, 17, 17, 0.2)';
+        ctx.fillRect(0, 0, width, height);
+
+        balls.forEach(ball => {
+            ball.update();
+            ball.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+</script>
+</body>
+</html>
